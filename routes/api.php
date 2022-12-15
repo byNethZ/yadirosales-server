@@ -1,0 +1,44 @@
+<?php
+
+use App\Http\Controllers\ApiController;
+use App\Http\Controllers\PropertyController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| is assigned the "api" middleware group. Enjoy building your API!
+|
+*/
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+Route::get('properties/{type}', [PropertyController::class, 'propertiesByType']);
+Route::get('properties', [PropertyController::class, 'getProperties']);
+Route::get('home/{type}', [PropertyController::class, 'getPropertiesHome']);
+Route::get('search/{feature}/{query}', [PropertyController::class, 'getPropertiesByQuery']);
+Route::get('features', [PropertyController::class, 'getDataByColumn']);
+Route::get('property/{id}', [PropertyController::class, 'getProperty']);
+
+Route::get('results-counts', [PropertyController::class, 'getCountsResults']);
+
+Route::post('contact', [PropertyController::class, 'sendMail']);
+
+Route::get('images/{id}', [ApiController::class, 'images']);
+Route::get('image/{id}', [ApiController::class, 'image']);
+
+Route::get('consult/{type}/{status}', [ApiController::class, 'properties']);
+
+
+//Preview Mail
+Route::get('/mailable', function () {
+    $data = 'Preview';
+    return new App\Mail\ContactMessage($data);
+});

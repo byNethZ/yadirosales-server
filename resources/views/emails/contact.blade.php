@@ -123,14 +123,16 @@
         .item a {
             color: #fff;
             font-weight: bold;
-            height: 3rem;
-            width: 100%;
             align-self: center;
             border: none;
             background-color: #D11241;
             border-radius: .2rem;
             cursor: pointer;
             text-decoration: none;
+            display: block;
+            padding: .5rem;
+            text-align: center;
+            font-size: 1.5rem;
         }
 
         .item a:hover {
@@ -169,7 +171,10 @@
             }
 
             .item a {
-                width: 5rem;
+                padding: .5rem;
+                width: auto;
+                height: auto;
+                font-size: 1rem;
             }
 
             .item-info-content {

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\PropertyController;
+use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,16 @@ Route::get('consult/{type}/{status}', [ApiController::class, 'properties']);
 
 //Preview Mail
 Route::get('/mailable', function () {
-    $data = 'Preview';
-    return new App\Mail\ContactMessage($data);
+    $data = [
+        'firstname' => 'Nethz',
+        'lastname' => 'Jimenez',
+        'email' => 'correo@emailcom',
+        'phone' => '9841533143',
+        'message' => 'Texto de prueba',
+        'typetour' => 'persona',
+        'date' => '12/12/2022',
+        'time' => 'Anytime',
+    ];
+    $property = Property::find(1);
+    return new App\Mail\ContactMessage($data, $property);
 });

@@ -7,6 +7,7 @@ use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class PropertyController extends Controller
 {
@@ -114,7 +115,7 @@ class PropertyController extends Controller
 
     public function sendMail(Request $request){
 
-        $validated = $request->validate([
+        $validated = Validator::make($request->all(), [
             'firstname' => 'required',
             'lastname' => 'required',
             'email' => 'required|email',
@@ -122,13 +123,36 @@ class PropertyController extends Controller
             'message' => 'required',
             'typetour' => 'required',
             'date' => 'required',
-            'time' => 'required'
+            'time' => 'required',
+            'propertyid' => 'required'
         ]);
+
+        if($validated->fails()){
+            return response()->json([
+                'errors' => $validated->errors()->first()
+            ], 422);
+        }
+
 
         $property = Property::find($request->propertyid);
 
-        $mailContact = new ContactMessage($validated, $property);
+        $mailContact = new ContactMessage($validated->validated(), $property);
 
-        Mail::to('bynethz@gmail.com')->send($mailContact);
+        $mailSended = Mail::to('dbliones@gmail.com')->cc('bynethz@gmail.com')->send($mailContact);
+        //$mailSended = Mail::to('bynethz@gmail.com')->send($mailContact);
+
+        if(!$mailSended){
+            $data = [
+                'code' => 400,
+                'message' => 'Failure sending email'
+            ];
+        }
+
+        $data = [
+            'code' => 200,
+            'message' => 'Email sent successfully'
+        ];
+
+        return response()->json($data, $data['code']);
     }
 }

@@ -23,7 +23,7 @@
 
         .header {
             width: 100%;
-            height: 20rem;
+            height: 10rem;
             position: relative;
         }
 
@@ -174,6 +174,7 @@
                 padding: .5rem;
                 width: auto;
                 height: auto;
+                max-height: 3rem;
                 font-size: 1rem;
             }
 
@@ -187,8 +188,6 @@
 
 <body>
     <header class="header">
-        <img class="background" src="https://yadirosalesrealtor.com/wp-content/uploads/2022/12/riverwalk-scaled.jpg"
-            alt="Header">
         <div class="logo">
             <img src="https://yadirosalesrealtor.com/wp-content/uploads/2022/02/logo_blanco_50.png" alt="Logo">
         </div>

@@ -14,7 +14,7 @@ class PropertyController extends Controller
     public function getProperties()
     {
         //$properties = Property::all();
-        $properties = Property::where('status', '!=', 'Closed')->orderBy('status', 'asc')->orderBy('updated_at', 'desc')->paginate(12);
+        $properties = Property::where('status', '!=', 'Closed')->orderBy('status', 'asc')->orderBy('updated_at', 'desc')->paginate(36);
 
         $response = [
             'code' => 200,
@@ -51,7 +51,7 @@ class PropertyController extends Controller
 
     public function propertiesByType($type)
     {
-        $properties = Property::where('type', '=', $type)->where('status', '!=', 'Closed')->orderBy('status', 'asc')->orderBy('updated_at', 'desc')->paginate(12);
+        $properties = Property::where('type', '=', $type)->where('status', '!=', 'Closed')->orderBy('status', 'asc')->orderBy('updated_at', 'desc')->paginate(36);
 
         $response = [
             'code' => 200,
@@ -69,7 +69,7 @@ class PropertyController extends Controller
 
 
         if ($type === 'all') {
-            $properties = Property::where($feature, '=', $query)->where('status', '!=', 'Closed')->orderBy('status', 'asc')->orderBy('updated_at', 'desc')->orderBy('type', 'desc')->paginate(12);
+            $properties = Property::where($feature, '=', $query)->where('status', '!=', 'Closed')->orderBy('status', 'asc')->orderBy('updated_at', 'desc')->orderBy('type', 'desc')->paginate(36);
         } else {
             if($feature === 'address'){
                 //Get Array from Address
@@ -86,11 +86,11 @@ class PropertyController extends Controller
                     ->where('status', '!=', 'Closed')
                     ->orderBy('status', 'asc')
                     ->orderBy('updated_at', 'desc')
-                    ->paginate(12);
+                    ->paginate(36);
 
             } else {
                 //Query is not is address
-                $properties = Property::where('type', '=', $type)->where($feature, '=', $query)->where('status', '!=', 'Closed')->orderBy('status', 'asc')->orderBy('updated_at', 'desc')->paginate(12);
+                $properties = Property::where('type', '=', $type)->where($feature, '=', $query)->where('status', '!=', 'Closed')->orderBy('status', 'asc')->orderBy('updated_at', 'desc')->paginate(36);
             }
         }
 
@@ -149,14 +149,21 @@ class PropertyController extends Controller
     }
 
     public function getColdwellBankerProperties(){
-        $coldwellBanker = '';
-        $properties =  Property::where('listing_office_name', '=', $coldwellBanker)
-            ->orWhere('selling_office_name', '=', $coldwellBanker)
-            ->orWhere('colisting_office_name', '=', $coldwellBanker)
-            ->orWhere('coselling_office_name', '=', $coldwellBanker)
+        $coldwellBanker = '%Coldwell Banker%';
+        $properties =  Property::where('listing_office_name', 'LIKE', $coldwellBanker)
+            ->orWhere('selling_office_name', 'LIKE', $coldwellBanker)
+            ->orWhere('colisting_office_name', 'LIKE', $coldwellBanker)
+            ->orWhere('coselling_office_name', 'LIKE', $coldwellBanker)
             ->orderBy('status', 'asc')
             ->orderBy('type', 'desc')
-            ->get();
+            ->paginate(36);
+
+        $data = [
+            'code' => 200,
+            'data' => $properties
+        ];
+
+        return response()->json($data, $data['code']);
     }
 
     public function sendMail(Request $request)

@@ -262,7 +262,7 @@
                             <p>{{$property->listing_member_name}}</p>
                         </div>
                     </div>
-                    <a href="https://properties.yadirosalesrealtor.com/property/{{$property->id}}">
+                    <a href="https://properties.yadirosalesrealtor.com/property/{{$property->list_number}}">
                         See more
                     </a>
                 </div>

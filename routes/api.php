@@ -24,9 +24,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('properties/{type}', [PropertyController::class, 'propertiesByType']);
 Route::get('properties', [PropertyController::class, 'getProperties']);
 Route::get('home/{type}', [PropertyController::class, 'getPropertiesHome']);
-Route::get('search/{feature}/{query}', [PropertyController::class, 'getPropertiesByQuery']);
+Route::get('search/{type}', [PropertyController::class, 'getPropertiesByQuery']);
 Route::get('features', [PropertyController::class, 'getDataByColumn']);
 Route::get('property/{id}', [PropertyController::class, 'getProperty']);
+Route::get('coldwell-banker', [PropertyController::class, 'getColdwellBankerProperties']);
 
 Route::get('results-counts', [PropertyController::class, 'getCountsResults']);
 
@@ -35,6 +36,7 @@ Route::post('contact', [PropertyController::class, 'sendMail']);
 Route::get('images/{id}', [ApiController::class, 'images']);
 Route::get('image/{id}', [ApiController::class, 'image']);
 
+// Debugging
 Route::get('consult/{type}/{status}', [ApiController::class, 'properties']);
 
 

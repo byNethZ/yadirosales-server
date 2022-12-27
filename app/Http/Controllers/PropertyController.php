@@ -150,12 +150,14 @@ class PropertyController extends Controller
 
     public function getColdwellBankerProperties(){
         $coldwellBanker = '%Coldwell Banker%';
-        $properties =  Property::where('listing_office_name', 'LIKE', $coldwellBanker)
+        $properties =  Property::where('status', '!=', 'Closed')
+            ->where('listing_office_name', 'LIKE', $coldwellBanker)
             ->orWhere('selling_office_name', 'LIKE', $coldwellBanker)
             ->orWhere('colisting_office_name', 'LIKE', $coldwellBanker)
             ->orWhere('coselling_office_name', 'LIKE', $coldwellBanker)
             ->orderBy('status', 'asc')
-            ->orderBy('type', 'desc')
+            ->orderBy('type', 'asc')
+            ->orderBy('updated_at', 'desc')
             ->paginate(36);
 
         $data = [
@@ -188,11 +190,14 @@ class PropertyController extends Controller
         }
 
 
-        $property = Property::where('list_number', '=', $request->propertyid)->first();
+        $propertyFinded = Property::where('list_number', '=', $request->propertyid)->first();
+
+        $property = $propertyFinded ? $propertyFinded : null;
 
         $mailContact = new ContactMessage($validated->validated(), $property);
 
         $mailSended = Mail::to('dbliones@gmail.com')->cc('bynethz@gmail.com')->send($mailContact);
+        //$mailSended = true;
 
         if (!$mailSended) {
             $data = [

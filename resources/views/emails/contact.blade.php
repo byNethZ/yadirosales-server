@@ -194,7 +194,11 @@
     </header>
     <main class="container">
         <div class="content">
-            <h1>A new visitor to your website wants more information about this property:</h1>
+            @if($property)
+                <h1>A new visitor to your website wants more information about this property:</h1>
+            @else
+                <h1>A new visitor to your website wants more information:</h1>
+            @endif
 
             <div class="contact-container">
                 <h1>Contact:</h1>
@@ -243,30 +247,34 @@
                 </div>
             </div>
 
-            <div class="item">
-                <div class="item-image">
-                    <img src="{{$property->image}}" alt="{{$property->list_number}}">
-                </div>
-                <div class="item-content">
-                    <div class="item-info-content">
-                        <div class="item-address">
-                            <h3>{{$property->street_number}} {{$property->street}} {{$property->street_suffix}}</h3>
-                            <p>{{$property->city}}, {{$property->state}}, {{$property->zipcode}}</p>
-                        </div>
-                        <div class="item-info">
-                            <p>MLS: #{{$property->list_number}}</p>
-                            <h3 class="price">{{$property->price}}</h3>
-                        </div>
-                        <div class="item-office">
-                            <p>{{$property->listing_office_name}}</p>
-                            <p>{{$property->listing_member_name}}</p>
-                        </div>
+            @if($property)
+
+                <div class="item">
+                    <div class="item-image">
+                        <img src="{{$property->image}}" alt="{{$property->list_number}}">
                     </div>
-                    <a href="https://properties.yadirosalesrealtor.com/property/{{$property->list_number}}">
-                        See more
-                    </a>
+                    <div class="item-content">
+                        <div class="item-info-content">
+                            <div class="item-address">
+                                <h3>{{$property->street_number}} {{$property->street}} {{$property->street_suffix}}</h3>
+                                <p>{{$property->city}}, {{$property->state}}, {{$property->zipcode}}</p>
+                            </div>
+                            <div class="item-info">
+                                <p>MLS: #{{$property->list_number}}</p>
+                                <h3 class="price">{{$property->price}}</h3>
+                            </div>
+                            <div class="item-office">
+                                <p>{{$property->listing_office_name}}</p>
+                                <p>{{$property->listing_member_name}}</p>
+                            </div>
+                        </div>
+                        <a href="https://properties.yadirosalesrealtor.com/property/{{$property->list_number}}">
+                            See more
+                        </a>
+                    </div>
                 </div>
-            </div>
+
+            @endif
 
         </div>
     </main>
